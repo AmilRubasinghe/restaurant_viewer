@@ -1,0 +1,13 @@
+//Server
+PORT = 8080
+
+//Connection
+DB_PORT = 3306
+DB_HOST = 127.0.0.1
+DB_USERNAME = root
+DB_NAME = restaurant_reviewer
+DB_PASSWORD =password
+
+
+
+API_ENDPOINT = http://127.0.0.1:8080
