@@ -16,7 +16,7 @@ const cookieParser = require("cookie-parser");
 
 const router = require("./router");
 
-const { Config, Database } = require("../config");
+const { Config } = require("../config");
 
 const { JSON_PARSER, URLENCODED } = Config.BODYPARSER;
 
@@ -31,7 +31,5 @@ app.use(accessHeader);
 app.use("/", router);
 
 generateTables();
-
-Database.connect();
 
 module.exports = app;

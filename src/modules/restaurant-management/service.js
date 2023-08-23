@@ -36,6 +36,7 @@ const getRestaurant = async (filter) => {
 };
 
 const createRestaurantData = async (data) => {
+  data.active = true;
   const createSingleRecode = DataBase.createSingleRecode(data);
 
   const [err, result] = await to(createSingleRecode);

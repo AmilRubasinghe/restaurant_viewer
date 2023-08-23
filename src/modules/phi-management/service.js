@@ -36,6 +36,7 @@ const getPhi = async (filter) => {
 };
 
 const createPhiData = async (data) => {
+  data.active = true;
   const createSingleRecode = DataBase.createSingleRecode(data);
 
   const [err, result] = await to(createSingleRecode);

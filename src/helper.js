@@ -66,13 +66,13 @@ const TE = (err, isLog = false) => {
 const SUCCESS = (res, codeObj, data, span = null) => {
   const { hc, code, message } = codeObj;
 
-_spanFinished(span);
+  _spanFinished(span);
 
-let response = CUSTOM_CODE._200(data);
+  let response = CUSTOM_CODE._200(data);
 
-if (hc && code && message) {
-  response = CUSTOM_CODE[`_${hc}`](data, codeObj);
-}
+  if (hc && code && message) {
+    response = CUSTOM_CODE[`_${hc}`](data, codeObj);
+  }
 
   res.status(response.httpCode).json(response);
 
@@ -90,6 +90,44 @@ const ERROR = (res, err, span = null, traceId = "") => {
     const error = err.error ? err.error : err;
 
     let response = CUSTOM_CODE._500(error);
+
+    if (error && error.hc && error.message) {
+      response = CUSTOM_CODE[`_${error.hc}`](error);
+    }
+
+    _spanFinished(span, response, error);
+
+    return res.status(response.httpCode).json({
+      ...response,
+      traceId,
+    });
+  } catch (catchErr) {
+    console.log("****", catchErr);
+
+    Sentry.captureException(err);
+
+    const response = CUSTOM_CODE._400(err);
+
+    _spanFinished(span, response, catchErr);
+
+    return res.status(response.httpCode).json({
+      ...response,
+      traceId,
+    });
+  }
+};
+
+/**
+ * Create validation error response
+ * @param {Response} res - Response object
+ * @param {Object} error - Error object
+ * @return {Object} Return HTTP Response
+ */
+const VALIDATION_ERROR = (res, err, span = null, traceId = "") => {
+  try {
+    const error = err.error ? err.error : err;
+
+    let response = CUSTOM_CODE._400(error);
 
     if (error && error.hc && error.message) {
       response = CUSTOM_CODE[`_${error.hc}`](error);
@@ -173,6 +211,7 @@ module.exports = {
   TE,
   SUCCESS,
   ERROR,
+  VALIDATION_ERROR,
   mapError,
   parseToObject,
 };

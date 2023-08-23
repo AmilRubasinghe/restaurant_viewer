@@ -1,10 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
-
-const { Database } = require("../../../config");
-
-const Constants = require("./constants");
-
-const sequelize = Database.connect();
+const sequelize = require("../../../config/database")
 
 class Restaurant extends Model {}
 
@@ -20,8 +15,9 @@ Restaurant.init(
     },
     registrationNo: {
       type: DataTypes.STRING(),
+      unique: 'registrationNo'
     },
-    registrationData: {
+    registrationDate: {
       type: DataTypes.DATE(),
     },
     contactNumber: {
