@@ -1,6 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const ACCESS = {
+  ACCESS_TOKEN: process.env.ACCESS_TOKEN,
+};
+
 const APPLICATION = {
   PORT: process.env.PORT,
   DB_PORT: process.env.DB_PORT,
@@ -37,4 +41,6 @@ module.exports = {
   BODYPARSER,
 
   ACCESS_HEADERS,
+
+  ACCESS,
 };
