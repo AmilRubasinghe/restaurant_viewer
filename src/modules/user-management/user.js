@@ -21,6 +21,9 @@ User.init(
     password: {
       type: DataTypes.STRING(),
     },
+    contactNumber: {
+      type: DataTypes.STRING(15),
+    },
     email: {
       type: DataTypes.STRING(55),
       unique: "email",

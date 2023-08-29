@@ -2,7 +2,7 @@ const Service = require("./service");
 
 const { SUCCESS, ERROR } = require("../../helper");
 
-const { SUC_CODES, SUC_REGISTERED } = require("./constants").Codes;
+const { SUC_CODES } = require("./constants").Codes;
 
 const getUsers = async (req, res) => {
   try {
@@ -21,18 +21,6 @@ const getUser = async (req, res) => {
     const result = await Service.getUser(req.params);
 
     SUCCESS(res, SUC_CODES, result, req.span);
-  } catch (error) {
-    console.log(error);
-
-    ERROR(res, error, res.span);
-  }
-};
-
-const createUser = async (req, res) => {
-  try {
-    const result = await Service.createUser(req.body);
-
-    SUCCESS(res, SUC_REGISTERED, result, req.span);
   } catch (error) {
     console.log(error);
 
@@ -68,8 +56,6 @@ module.exports = {
   getUser,
 
   getUsers,
-
-  createUser,
 
   updateUser,
 

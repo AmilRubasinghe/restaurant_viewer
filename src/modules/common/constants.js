@@ -6,6 +6,8 @@ const _setCode = (code, httpCode) => ({
 const Codes = {
   SUC_CODES: { ..._setCode(1, 200), message: "ok" },
   SUC_REGISTERED: { ..._setCode(1, 200), message: "Successfully Registered" },
+  SUC_SEND: { ..._setCode(1, 200), message: "Successfully Send the Email" },
+  SUC_RESET: { ..._setCode(1, 200), message: "Successfully Reset" },
   ERR_USERNAME_EXIST: {
     ..._setCode(1, 400),
     message: "User name is already exist",

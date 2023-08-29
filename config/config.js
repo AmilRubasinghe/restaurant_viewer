@@ -14,6 +14,13 @@ const APPLICATION = {
   DB_PASSWORD: process.env.DB_PASSWORD,
 };
 
+const MAIL_SERVER = {
+  MAIL_HOST: process.env.MAIL_HOST,
+  MAIL_SERVICE: process.env.MAIL_SERVICE,
+  MAIL_USER: process.env.MAIL_USER,
+  MAIL_PASSWORD: process.env.MAIL_PASSWORD,
+};
+
 const ACCESS_HEADERS = {
   ALLOWED_DOMAINS: ["http://127.0.0.1:8080", "http://localhost:8080"],
 
@@ -43,4 +50,6 @@ module.exports = {
   ACCESS_HEADERS,
 
   ACCESS,
+
+  MAIL_SERVER,
 };
