@@ -53,7 +53,7 @@ const login = async (data) => {
         expiresIn: "8h",
       });
 
-      return { token: accessToken };
+      return { token: accessToken, role: resultData.role };
     } else {
       TE("Incorrect Password");
     }

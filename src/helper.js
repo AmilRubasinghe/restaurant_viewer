@@ -155,6 +155,38 @@ const VALIDATION_ERROR = (res, err, span = null, traceId = "") => {
   }
 };
 
+const UNAUTHORIZED_ERROR = (res, err, span = null, traceId = "") => {
+  try {
+    const error = err.error ? err.error : err;
+
+    let response = CUSTOM_CODE._401(error);
+
+    if (error && error.hc && error.message) {
+      response = CUSTOM_CODE[`_${error.hc}`](error);
+    }
+
+    _spanFinished(span, response, error);
+
+    return res.status(response.httpCode).json({
+      ...response,
+      traceId,
+    });
+  } catch (catchErr) {
+    console.log("****", catchErr);
+
+    Sentry.captureException(err);
+
+    const response = CUSTOM_CODE._400(err);
+
+    _spanFinished(span, response, catchErr);
+
+    return res.status(response.httpCode).json({
+      ...response,
+      traceId,
+    });
+  }
+};
+
 const mapError = (err, message) => {
   const error = {
     message: message,
@@ -212,6 +244,7 @@ module.exports = {
   SUCCESS,
   ERROR,
   VALIDATION_ERROR,
+  UNAUTHORIZED_ERROR,
   mapError,
   parseToObject,
 };
