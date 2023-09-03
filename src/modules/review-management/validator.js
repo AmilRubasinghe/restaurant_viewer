@@ -1,29 +1,30 @@
 const Joi = require("joi");
 const { VALIDATION_ERROR } = require("../../helper");
 const Constants = require("../metadata/constants");
+const ReviewConstants = require("./constants");
 const locations = Constants.locations;
+const status = ReviewConstants.status;
 
 const createSchema = Joi.object({
-  phiName: Joi.string().required(),
-  registrationNo: Joi.string().required(),
-  email: Joi.string().email().required(),
-  contactNumber: Joi.string().length(10).required(),
-  address: Joi.string().optional().allow(null, ""),
+  restaurantId: Joi.string().required(),
+  userId: Joi.string().required(),
+  reviewDetails: Joi.string().required(),
   phiArea: Joi.string()
     .required()
     .valid(...locations),
+  status: Joi.string()
+    .required()
+    .valid(...status),
 });
 
 const updateSchema = Joi.object({
-  phiName: Joi.string().optional(),
-  registrationNo: Joi.string().optional(),
-  email: Joi.string().email().optional(),
-  contactNumber: Joi.string().length(10).optional(),
-  address: Joi.string().optional().allow(null, ""),
   phiArea: Joi.string()
     .optional()
     .valid(...locations),
-  active: Joi.bool().optional(),
+  reviewDetails: Joi.string().optional(),
+  status: Joi.string()
+    .optional()
+    .valid(...status),
 });
 
 const create = async (req, res, next) => {

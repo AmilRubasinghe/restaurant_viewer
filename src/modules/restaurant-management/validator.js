@@ -1,5 +1,7 @@
 const Joi = require("joi");
 const { VALIDATION_ERROR } = require("../../helper");
+const Constants = require("../metadata/constants");
+const locations = Constants.locations;
 
 const createSchema = Joi.object({
   restaurantName: Joi.string().required(),
@@ -7,14 +9,21 @@ const createSchema = Joi.object({
   registrationDate: Joi.date().optional().allow(null),
   contactNumber: Joi.string().length(10).required(),
   address: Joi.string().optional().allow(null, ""),
-  phiArea: Joi.string().required(),
+  phiArea: Joi.string()
+    .required()
+    .valid(...locations),
 });
 
 const updateSchema = Joi.object({
   restaurantName: Joi.string().optional(),
   contactNumber: Joi.string().length(10).optional(),
+  registrationDate: Joi.date().optional().allow(null),
+  registrationNo: Joi.string().optional(),
   address: Joi.string().optional().allow(null, ""),
-  active: Joi.bool().optional()
+  phiArea: Joi.string()
+    .optional()
+    .valid(...locations),
+  active: Joi.bool().optional(),
 });
 
 const create = async (req, res, next) => {

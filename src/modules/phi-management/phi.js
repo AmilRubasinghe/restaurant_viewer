@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../../../config/database");
+const Constants = require("../metadata/constants");
 
 class Phi extends Model {}
 
@@ -9,6 +10,8 @@ Phi.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      unique: true,
+      allowNull: false,
     },
     phiName: {
       type: DataTypes.STRING(),
@@ -30,6 +33,9 @@ Phi.init(
     phiArea: {
       type: DataTypes.STRING(),
       allowNull: false,
+      type: DataTypes.ENUM({
+        values: Constants.locations,
+      }),
     },
     active: {
       type: DataTypes.BOOLEAN,

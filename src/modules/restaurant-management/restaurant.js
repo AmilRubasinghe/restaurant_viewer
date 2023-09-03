@@ -1,5 +1,8 @@
 const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../../../config/database")
+
+const sequelize = require("../../../config/database");
+
+const Constants = require("../metadata/constants");
 
 class Restaurant extends Model {}
 
@@ -9,13 +12,15 @@ Restaurant.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      unique: true,
+      allowNull: false,
     },
     restaurantName: {
       type: DataTypes.STRING(),
     },
     registrationNo: {
       type: DataTypes.STRING(),
-      unique: 'registrationNo'
+      unique: "registrationNo",
     },
     registrationDate: {
       type: DataTypes.DATE(),
@@ -29,6 +34,9 @@ Restaurant.init(
     phiArea: {
       type: DataTypes.STRING(),
       allowNull: false,
+      type: DataTypes.ENUM({
+        values: Constants.locations,
+      }),
     },
     active: {
       type: DataTypes.BOOLEAN,
