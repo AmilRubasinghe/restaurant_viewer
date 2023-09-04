@@ -50,8 +50,9 @@ const _getUserData = async (filter) => {
   return res ? res.dataValues : null;
 };
 
-const getReviewsData = async () => {
+const getReviewsData = async (filter) => {
   const getRecodes = DataBase.findByQuery({
+    where: filter,
     order: [["createdAt", "DESC"]],
   });
 
@@ -107,6 +108,7 @@ const getReview = async (filter) => {
 
   return reviewData;
 };
+
 
 const createReviewData = async (data) => {
   const { status, phiArea, reviewDetails, restaurantId } = data;

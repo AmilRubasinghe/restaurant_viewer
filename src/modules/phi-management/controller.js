@@ -6,7 +6,7 @@ const { SUC_CODES } = require("./constants").Codes;
 
 const getPhisData = async (req, res) => {
   try {
-    const result = await Service.getPhisData();
+    const result = await Service.getPhisData(req.query);
 
     SUCCESS(res, SUC_CODES, result, req.span);
   } catch (error) {
@@ -15,6 +15,7 @@ const getPhisData = async (req, res) => {
     ERROR(res, error, res.span);
   }
 };
+
 
 const getPhiData = async (req, res) => {
   try {

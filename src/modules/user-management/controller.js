@@ -6,7 +6,7 @@ const { SUC_CODES } = require("./constants").Codes;
 
 const getUsers = async (req, res) => {
   try {
-    const result = await Service.getUsers();
+    const result = await Service.getUsers(req.query);
 
     SUCCESS(res, SUC_CODES, result, req.span);
   } catch (error) {

@@ -2,10 +2,16 @@ const Constants = require("./constants");
 
 const DataBase = require("./database");
 
+const Sequelize = require("sequelize");
+
+const Op = Sequelize.Op;
+
 const { to, TE } = require("../../helper");
 
-const getPhisData = async () => {
+const getPhisData = async (params) => {
   const filter = { active: true };
+
+  Object.assign(filter, params);
 
   const getRecodes = DataBase.findByQuery({
     where: filter,
@@ -36,19 +42,49 @@ const getPhi = async (filter) => {
 };
 
 const createPhiData = async (data) => {
-  data.active = true;
-  const createSingleRecode = DataBase.createSingleRecode(data);
+  const getRecode = DataBase.findByQuery({
+    where: {
+      [Op.or]: [{ registrationNo: data.registrationNo }, { email: data.email }],
+    },
+  });
 
-  const [err, result] = await to(createSingleRecode);
+  const [error, resultData] = await to(getRecode);
 
-  if (err) TE(err);
+  if ((resultData && resultData.length <= 0) || resultData == null) {
+    const createSingleRecode = DataBase.createSingleRecode(data);
 
-  if (!result) TE("Result not found");
+    const [err, result] = await to(createSingleRecode);
 
-  return result;
+    if (err) TE(err);
+
+    if (!result) TE("Result not found");
+
+    return result;
+  } else {
+    TE("Registration number or email already exist ");
+  }
+
+  if (error) TE(error);
 };
 
 const updatePhiData = async (filter, updateData) => {
+  const { registrationNo = null, email = null } = updateData;
+
+  if (registrationNo || email) {
+    const getRecode = DataBase.findByQuery({
+      where: {
+        [Op.or]: [{ registrationNo: registrationNo }, { email: email }],
+      },
+    });
+
+    const [error, resultData] = await to(getRecode);
+    if (resultData && resultData.length > 0) {
+      TE("Registration number or email already exist ");
+      return;
+    }
+    if (error) TE(error);
+  }
+
   const updateRecode = DataBase.updateRecode({ where: filter }, updateData);
 
   const [err, result] = await to(updateRecode);
@@ -57,9 +93,9 @@ const updatePhiData = async (filter, updateData) => {
 
   if (!result) TE("Result not found");
 
-  const phiData = await DataBase.findByQuery({ where: filter });
+  const phiData = await DataBase.findOneByQuery({ where: filter });
 
-  return phiData[0];
+  return phiData;
 };
 
 const deletePhiData = async (data) => {

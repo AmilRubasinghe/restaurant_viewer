@@ -17,16 +17,6 @@ const createSchema = Joi.object({
     .valid(...status),
 });
 
-const updateSchema = Joi.object({
-  phiArea: Joi.string()
-    .optional()
-    .valid(...locations),
-  reviewDetails: Joi.string().optional(),
-  status: Joi.string()
-    .optional()
-    .valid(...status),
-});
-
 const create = async (req, res, next) => {
   try {
     await createSchema.validateAsync(req.body);
@@ -36,16 +26,6 @@ const create = async (req, res, next) => {
   }
 };
 
-const update = async (req, res, next) => {
-  try {
-    await updateSchema.validateAsync(req.body);
-    next();
-  } catch (error) {
-    VALIDATION_ERROR(res, error);
-  }
-};
-
 module.exports = {
   create,
-  update,
 };

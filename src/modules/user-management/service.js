@@ -2,8 +2,10 @@ const DataBase = require("./database");
 
 const { to, TE } = require("../../helper");
 
-const getUsers = async () => {
+const getUsers = async (params) => {
   const filter = { active: true };
+
+  Object.assign(filter, params);
 
   const getRecodes = DataBase.findByQuery({
     where: filter,

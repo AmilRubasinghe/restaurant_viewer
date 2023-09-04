@@ -67,7 +67,7 @@ const createUser = async (data) => {
 
   storeData.password = bcrypt.hashSync(data.password, salt);
 
-  const getRecode = DataBase.findOneByQuery({
+  const getRecode = DataBase.findByQuery({
     where: {
       [Op.or]: [{ userName: storeData.userName }, { email: storeData.email }],
     },

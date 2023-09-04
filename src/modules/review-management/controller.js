@@ -6,7 +6,7 @@ const { SUC_CODES } = require("./constants").Codes;
 
 const getReviewsData = async (req, res) => {
   try {
-    const result = await Service.getReviewsData();
+    const result = await Service.getReviewsData(req.query);
 
     SUCCESS(res, SUC_CODES, result, req.span);
   } catch (error) {
