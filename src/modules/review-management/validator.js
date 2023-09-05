@@ -7,7 +7,6 @@ const status = ReviewConstants.status;
 
 const createSchema = Joi.object({
   restaurantId: Joi.string().required(),
-  userId: Joi.string().required(),
   reviewDetails: Joi.string().required(),
   phiArea: Joi.string()
     .required()

@@ -30,7 +30,7 @@ const getReview = async (req, res) => {
 
 const createReviewData = async (req, res) => {
   try {
-    const result = await Service.createReviewData(req.body);
+    const result = await Service.createReviewData({ ...req.body, userId: req.user.id });
 
     SUCCESS(res, SUC_CODES, result, req.span);
   } catch (error) {
