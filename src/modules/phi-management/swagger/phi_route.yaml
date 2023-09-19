@@ -1,0 +1,156 @@
+paths:
+
+  /phi-details:
+  ##################### GET ALL ##########################
+    get:
+      tags:
+        - PHI Management
+      summary: "Retrieve Phi details"
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: id
+          type: string
+          description: phi id
+        - in: query
+          name: phiName
+          type: string
+          description: Phi name
+        - in: query
+          name: email
+          type: string
+          description: phi email
+        - in: query
+          name: registrationNo
+          type: string
+          description: phi registration
+        - in: query
+          name: phiArea
+          type: string
+          description: phi area
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        500:
+          $ref: "#components/responses/500"
+
+    post:
+      tags:
+        - PHI Management
+      summary: "Add phi details"
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              phiName:
+                type: string
+                example: "test001"
+              registrationNo:
+                 type: string
+                 example: "0001"
+              email:
+                type: string
+                example: "test001@gmail.com"
+              address:
+                 type: string
+                 example: "test001 test road Sri Lanka"
+              contactNumber:
+                 type: string
+                 example: "0110122785"
+              phiArea:
+                 type: string
+                 example: "Matara"
+             
+      responses:
+        200:
+          allOf:
+            - $ref: "#components/responses/200"
+            - schema:
+                type: object
+        500:
+          $ref: "#components/responses/500"
+
+    ##################### GET ONE BY ID ##########################
+  /phi-details/{id}:
+    get:
+      tags:
+        - PHI Management
+      summary: "Retrieve phi by ID "
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: phi system id
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        500:
+          $ref: "#components/responses/500"
+
+  ##################### PUT ##########################
+    put:
+      tags:
+        - PHI Management
+      summary: "Update phis"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: phis system id
+        - in: query
+          name: phiName
+          type: string
+          description: Attributes needed to include in phi's name
+          example: test
+        - in: query
+          name: email
+          type: string
+          description: Attributes needed to include in phi's email
+          example: test@gmail.com
+        - in: query
+          name: contactNumber
+          type: string
+          description: Attributes needed to include in phi's contactNumber
+          example: 011 1214544
+        - in: query
+          name: registrationNo
+          description: Attributes needed to include in phi's registrationNo
+          type: string
+        - in: query
+          name: address
+          description: Attributes needed to include in phi's address
+          type: string
+        - in: query
+          name: phiArea
+          description: Attributes needed to include in phi's phi area
+          type: string
+        - in: query
+          name: active
+          type: boolean
+          description: Attributes needed to include in phi active or inactive
+          example: active inactive
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        404:
+          $ref: "#components/responses/404"
+        500:
+          $ref: "#components/responses/500"
+
+  

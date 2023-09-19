@@ -1,11 +1,3 @@
-// ##################################################################
-// #  File Name: helper.js                                          #
-// #                                                                #
-// #  Description: core helper functions for every versions         #
-// #                                                                #
-// #  Commented By: Lasantha Lakmal                                 #
-// ##################################################################
-
 const { CUSTOM_CODE } = require("./errors");
 
 const _spanFinished = (span, response, err) => {
@@ -13,23 +5,12 @@ const _spanFinished = (span, response, err) => {
 
   if (err) {
     const stack = err.stack ? err.stack : null;
-    // Tracer.createErrorLog(span, response, stack);
   } else {
-    // Tracer.createLog(span, 'finished', {
-    //   method: 'success',
-    //   component: 'helper'
-    // });
   }
 
   span.finish();
 };
 
-/**
- * Convert promise call result to array
- * @param {Promise} promise - promise object
- *
- * @returns {[]} Return [err, data] array
- */
 const to = (promise) => {
   return promise
 
@@ -39,11 +20,6 @@ const to = (promise) => {
     .catch((err) => [err]);
 };
 
-/**
- * Throw error and if isLog is true, create a log
- * @param {*} err - Any kind of error
- * @param {boolean} isLog - Error log or not
- */
 const TE = (err, isLog = false) => {
   if (isLog) {
     console.error(err);
@@ -52,17 +28,6 @@ const TE = (err, isLog = false) => {
   throw err;
 };
 
-/**
- * Create succes response
- * @param {Response} res - Response object
- * @param {number} code - Http Sucess code
- * @param {*} data - Final result. object, array ...
- * @return {Object} Return HTTP Response: {
- *  code: 200,
- *  data: (*),
- *  success: true
- * }
- */
 const SUCCESS = (res, codeObj, data, span = null) => {
   const { hc, code, message } = codeObj;
 
@@ -79,12 +44,6 @@ const SUCCESS = (res, codeObj, data, span = null) => {
   return response;
 };
 
-/**
- * Create error response
- * @param {Response} res - Response object
- * @param {Object} error - Error object
- * @return {Object} Return HTTP Response
- */
 const ERROR = (res, err, span = null, traceId = "") => {
   try {
     const error = err.error ? err.error : err;
@@ -117,12 +76,6 @@ const ERROR = (res, err, span = null, traceId = "") => {
   }
 };
 
-/**
- * Create validation error response
- * @param {Response} res - Response object
- * @param {Object} error - Error object
- * @return {Object} Return HTTP Response
- */
 const VALIDATION_ERROR = (res, err, span = null, traceId = "") => {
   try {
     const error = err.error ? err.error : err;
@@ -235,9 +188,6 @@ const parseToObject = (value) => {
   }
 };
 
-/**
- * @module helper
- */
 module.exports = {
   to,
   TE,

@@ -5,7 +5,7 @@ const updateSchema = Joi.object({
   name: Joi.string().optional(),
   email: Joi.string().optional(),
   active: Joi.bool().optional(),
-  contactNumber: Joi.bool().optional(),
+  contactNumber: Joi.string().optional(),
   role: Joi.string().optional(),
 });
 

@@ -1,0 +1,30 @@
+definitions: # Schema defination for request body
+  user:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+        example: test
+      userName:
+        type: string
+        example: test
+      password:
+        type: string
+        example: test
+      contactNumber:
+        type: string
+        example: "0114523654"
+      email:
+        type: string
+        example: test@gmail.com
+      role:
+        type: string
+        enum: ["user", "admin"]
+        default: "user"
+      active:
+        type: boolean
+        enum: [true, false]
+        default: true
+      

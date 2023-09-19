@@ -1,0 +1,18 @@
+paths:
+  /meta-data:
+    ##################### GET ##########################
+    get:
+      tags:
+        - Meta Data
+      summary: "Retrieve meta data list"
+      produces:
+        - application/json
+
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        500:
+          $ref: "#components/responses/500"
+  

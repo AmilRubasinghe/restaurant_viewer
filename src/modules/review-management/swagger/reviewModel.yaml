@@ -1,0 +1,22 @@
+definitions: # Schema defination for request body
+  review:
+    type: object
+    properties:
+      id:
+        type: string
+      reviewDetails:
+        type: string
+        example: test
+      status:
+        type: string
+        enum: ["good", "bad"]
+      userId:
+        type: string
+        example: 1
+      restaurantId:
+        type: string
+        example: 1
+      phiArea:
+        type: string
+        example: Matara
+      

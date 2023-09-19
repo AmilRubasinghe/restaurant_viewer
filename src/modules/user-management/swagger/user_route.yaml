@@ -1,0 +1,107 @@
+paths:
+
+  /user-details:
+  ##################### GET ONE ##########################
+    get:
+      tags:
+        - User Management
+      summary: "Retrieve User details"
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: id
+          type: string
+          description: user id
+        - in: query
+          name: name
+          type: string
+          description: user name
+        - in: query
+          name: email
+          type: string
+          description: user email
+        - in: query
+          name: userName
+          type: string
+          description: user userName
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        500:
+          $ref: "#components/responses/500"
+
+    ##################### GET ONE BY ID ##########################
+  /user-details/{id}:
+    get:
+      tags:
+        - User Management
+      summary: "Update users"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: user system id
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        500:
+          $ref: "#components/responses/500"
+
+  ##################### PUT ##########################
+    put:
+      tags:
+        - User Management
+      summary: "Retrieve user by ID"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: users system id
+        - in: query
+          name: name
+          type: string
+          description: Attributes needed to include in user's name
+          example: test
+        - in: query
+          name: email
+          type: string
+          description: Attributes needed to include in user's email
+          example: test@gmail.com
+        - in: query
+          name: contactNumber
+          type: string
+          description: Attributes needed to include in user's contactNumber
+          example: 011 1214544
+        - in: query
+          name: role
+          description: Attributes needed to include in user's role
+          type: string
+          nullable: true 
+          enum:
+            - admin
+            - user
+          example: admin user
+        - in: query
+          name: active
+          type: boolean
+          description: Attributes needed to include in user active or inactive
+          example: active inactive
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        404:
+          $ref: "#components/responses/404"
+        500:
+          $ref: "#components/responses/500"
+  

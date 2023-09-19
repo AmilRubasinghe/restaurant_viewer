@@ -1,0 +1,152 @@
+paths:
+
+  /restaurant-details:
+  ##################### GET ALL ##########################
+    get:
+      tags:
+        - Restaurant Management
+      summary: "Retrieve Restaurant details"
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: id
+          type: string
+          description: Restaurant id
+        - in: query
+          name: restaurantName
+          type: string
+          description: Restaurant name
+        - in: query
+          name: registrationNo
+          type: string
+          description: Restaurant registration
+        - in: query
+          name: phiArea
+          type: string
+          description: Restaurant area
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        500:
+          $ref: "#components/responses/500"
+
+    post:
+      tags:
+        - Restaurant Management
+      summary: "Add restaurant details"
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              restaurantName:
+                type: string
+                example: "test001"
+              registrationNo:
+                 type: string
+                 example: "0001"
+              registrationDate:
+                type: date
+                example: 2023/10/15
+              address:
+                 type: string
+                 example: "test001 test road Sri Lanka"
+              contactNumber:
+                 type: string
+                 example: "0110122785"
+              phiArea:
+                 type: string
+                 example: "Matara"
+             
+      responses:
+        200:
+          allOf:
+            - $ref: "#components/responses/200"
+            - schema:
+                type: object
+        500:
+          $ref: "#components/responses/500"
+
+    ##################### GET ONE BY ID ##########################
+  /restaurant-details/{id}:
+    get:
+      tags:
+        - Restaurant Management
+      summary: "Retrieve restaurant by ID "
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: Restaurant system id
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        500:
+          $ref: "#components/responses/500"
+
+  ##################### PUT ##########################
+    put:
+      tags:
+        - Restaurant Management
+      summary: "Update Restaurant"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: Restaurant system id
+        - in: query
+          name: restaurantName
+          type: string
+          description: Attributes needed to include in restaurant's name
+          example: test
+        - in: query
+          name: registrationDate
+          type: date
+          description: Attributes needed to include in restaurant's registration date
+          example: 2023/10/15
+        - in: query
+          name: contactNumber
+          type: string
+          description: Attributes needed to include in restaurant's contactNumber
+          example: 011 1214544
+        - in: query
+          name: registrationNo
+          description: Attributes needed to include in restaurant's registrationNo
+          type: string
+        - in: query
+          name: address
+          description: Attributes needed to include in restaurant's address
+          type: string
+        - in: query
+          name: phiArea
+          description: Attributes needed to include in restaurant's phi area
+          type: string
+        - in: query
+          name: active
+          type: boolean
+          description: Attributes needed to include in restaurant active or inactive
+          example: active inactive
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        404:
+          $ref: "#components/responses/404"
+        500:
+          $ref: "#components/responses/500"
+
+  

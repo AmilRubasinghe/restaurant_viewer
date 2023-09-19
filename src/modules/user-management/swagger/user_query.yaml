@@ -1,0 +1,141 @@
+paths:
+
+  /login:
+    ##################### POST USER LOGIN ##########################
+    post:
+      tags:
+        - User Management
+      summary: "User login"
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              userName:
+                type: string
+                example: "test"
+              password:
+                 type: string
+                 example: "test"
+      security: []              
+      responses:
+        200:
+          allOf:
+            - $ref: "#components/responses/200"
+            - schema:
+                type: object
+        500:
+          $ref: "#components/responses/500"
+
+  
+  /signup:
+    ##################### POST USER SIGN UP ##########################
+    post:
+      tags:
+        - User Management
+      summary: "User Sign up"
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              userName:
+                type: string
+                example: "test001"
+              name:
+                 type: string
+                 example: "test001"
+              email:
+                type: string
+                example: "test001@gmail.com"
+              password:
+                 type: string
+                 example: "test001"
+              contactNumber:
+                 type: string
+                 example: "0110122785"
+      security: []              
+      responses:
+        200:
+          allOf:
+            - $ref: "#components/responses/200"
+            - schema:
+                type: object
+        500:
+          $ref: "#components/responses/500"
+
+
+  /password-reset:
+    ##################### POST USER PASSWORD RESET ##########################
+    post:
+      tags:
+        - User Management
+      summary: "User Password Reset"
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              userName:
+                type: string
+                example: "test001"
+              oldPassword:
+                 type: string
+                 example: "test"
+              currentPassword:
+                type: string
+                example: "test001"
+             
+      security: []              
+      responses:
+        200:
+          allOf:
+            - $ref: "#components/responses/200"
+            - schema:
+                type: object
+        500:
+          $ref: "#components/responses/500"
+
+
+  /forget-password:
+    ##################### POST USER FORGET PASSWORD ##########################
+    post:
+      tags:
+        - User Management
+      summary: "User forget Password"
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              userName:
+                type: string
+                example: "test001"
+             
+      security: []              
+      responses:
+        200:
+          allOf:
+            - $ref: "#components/responses/200"
+            - schema:
+                type: object
+        500:
+          $ref: "#components/responses/500"
+ 
+   

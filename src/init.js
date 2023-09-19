@@ -16,38 +16,6 @@ const accessHeader = (req, res, next) => {
   next();
 };
 
-// const initRoute = (message) => (req, res) => {
-
-//   res.status(200).json({
-
-//     message: message,
-
-//     application: process.env.APP_NAME,
-
-//     version: process.env.VERSION
-//   });
-// };
-
-// const initSpan = (req, res, next) => {
-
-//   try {
-
-//     const span = Tracer.createSpan(req);
-
-//     Tracer.createLog(span, 'initialized', {
-//       method: 'initSpan',
-//       component: 'routes'
-//     });
-
-//     req.span = span;
-
-//     next();
-//   }
-//   catch (error) {
-
-//     ERROR(res, error);
-//   }
-// };
 
 const _404 = (req, res) => {
   res.status(404).json({
@@ -70,10 +38,6 @@ const _500 = (err, req, res) => {
 
 module.exports = {
   accessHeader,
-
-  //   initRoute,
-
-  //   initSpan,
 
   _404,
 
