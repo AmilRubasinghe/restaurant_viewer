@@ -10,7 +10,10 @@ const { UserRoutes } = require("./modules/user-management");
 
 const { CommonRoutes } = require("./modules/common");
 
-const { checkAdminToken, checkAdminAndUserToken } = require("./middlewares/admin-middleware");
+const {
+  checkAdminToken,
+  checkAdminPhiAndUserToken,
+} = require("./middlewares/admin-middleware");
 
 const { ReviewRoutes } = require("./modules/review-management");
 
@@ -18,14 +21,14 @@ const router = express.Router();
 
 router.use("/", CommonRoutes);
 
-router.use("/meta-data", checkAdminAndUserToken, MetaDataRoutes);
+router.use("/meta-data", checkAdminPhiAndUserToken, MetaDataRoutes);
 
 router.use("/phi-details", checkAdminToken, PhiRoutes);
 
-router.use("/restaurant-details", checkAdminToken, RestaurantRoutes);
+router.use("/restaurant-details", checkAdminPhiAndUserToken, RestaurantRoutes);
 
-router.use("/user-details", checkAdminToken, UserRoutes);
+router.use("/user-details", checkAdminPhiAndUserToken, UserRoutes);
 
-router.use("/review", checkAdminAndUserToken, ReviewRoutes);
+router.use("/review", checkAdminPhiAndUserToken, ReviewRoutes);
 
 module.exports = router;

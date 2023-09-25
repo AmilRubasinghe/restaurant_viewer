@@ -12,6 +12,7 @@ const createSchema = Joi.object({
   password: Joi.string().required(),
   contactNumber: Joi.string().required(),
   email: Joi.string().required(),
+  role: Joi.string().optional(),
 });
 
 const passwordResetSchema = Joi.object({

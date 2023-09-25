@@ -40,6 +40,18 @@ const createReviewData = async (req, res) => {
   }
 };
 
+const updateReviewData = async (req, res) => {
+  try {
+    const result = await Service.updateReviewData(req.params, req.body);
+
+    SUCCESS(res, SUC_CODES, result, req.span);
+  } catch (error) {
+    console.log(error);
+
+    ERROR(res, error, res.span);
+  }
+};
+
 const deleteReviewData = async (req, res) => {
   try {
     const result = await Service.deleteReviewData(req.params);
@@ -58,6 +70,8 @@ module.exports = {
   getReviewsData,
 
   createReviewData,
+
+  updateReviewData,
 
   deleteReviewData,
 };

@@ -21,6 +21,6 @@ const Codes = {
   },
 };
 
-const roles = ["user", "admin"];
+const roles = ["user", "admin", "phi"];
 
 module.exports = { Codes, roles };

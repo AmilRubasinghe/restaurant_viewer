@@ -53,7 +53,7 @@ const login = async (data) => {
         expiresIn: "8h",
       });
 
-      return { token: accessToken, role: resultData.role };
+      return { token: accessToken, role: resultData.role, id: resultData.id };
     } else {
       TE("Incorrect Password");
     }
@@ -131,8 +131,10 @@ const forgetPassword = async (data) => {
     const email = resultData.email;
 
     const password = generator.generate({
-      length: 10,
+      length: 6,
       numbers: true,
+      uppercase: false,
+      lowercase: false,
     });
 
     const updateData = { password: bcrypt.hashSync(password, salt) };
@@ -148,7 +150,7 @@ const forgetPassword = async (data) => {
     const sendMailData = {
       toEmail: email,
       subject: "Reset your password",
-      body: `<p>Your New password :</p> <br/> <h2> ${password}</h2>`,
+      body: `<p>Your Otp :</p> <br/> <h2> ${password}</h2>`,
     };
 
     const result = await MailService.mailSender(sendMailData);

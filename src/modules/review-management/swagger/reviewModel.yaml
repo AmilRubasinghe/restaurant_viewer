@@ -19,4 +19,9 @@ definitions: # Schema defination for request body
       phiArea:
         type: string
         example: Matara
+      isPhiMark:
+        type: boolean
+        enum: [true, false]
+        default: true
+
       

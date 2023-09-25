@@ -35,6 +35,10 @@ Review.init(
       type: DataTypes.STRING(),
       allowNull: false,
     },
+    isPhiMark: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     sequelize,

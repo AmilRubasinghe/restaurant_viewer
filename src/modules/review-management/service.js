@@ -153,6 +153,20 @@ const createReviewData = async (data) => {
   return result;
 };
 
+const updateReviewData = async (filter, updateData) => {
+  const updateRecode = DataBase.updateRecode({ where: filter }, updateData);
+
+  const [err, result] = await to(updateRecode);
+
+  if (err) TE(err);
+
+  if (!result) TE("Result not found");
+
+  const reviewData = await DataBase.findOneByQuery({ where: filter });
+
+  return reviewData;
+};
+
 const deleteReviewData = async (data) => {
   const deleteRecode = DataBase.deleteSingleRecode(data);
 
@@ -171,6 +185,8 @@ module.exports = {
   getReview,
 
   createReviewData,
+
+  updateReviewData,
 
   deleteReviewData,
 };

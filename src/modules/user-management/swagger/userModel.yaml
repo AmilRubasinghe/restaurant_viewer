@@ -21,7 +21,7 @@ definitions: # Schema defination for request body
         example: test@gmail.com
       role:
         type: string
-        enum: ["user", "admin"]
+        enum: ["user", "admin","phi"]
         default: "user"
       active:
         type: boolean

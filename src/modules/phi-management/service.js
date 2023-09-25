@@ -4,9 +4,52 @@ const DataBase = require("./database");
 
 const Sequelize = require("sequelize");
 
+const userService = require("../common/service");
+
+const { MailService } = require("../../services/mail");
+
+const generator = require("generate-password");
+
 const Op = Sequelize.Op;
 
 const { to, TE } = require("../../helper");
+
+const _createPhiAsUser = async (data) => {
+  try {
+    const { phiName, registrationNo, email, contactNumber } = data;
+
+    const password = generator.generate({
+      length: 10,
+      numbers: true,
+    });
+
+    const createUserSchema = {
+      name: phiName,
+      userName: registrationNo,
+      password: password,
+      contactNumber: contactNumber,
+      email: email,
+      role: "phi",
+    };
+
+    const user = await userService.createUser(createUserSchema);
+
+    console.log("Phi user created");
+
+    const sendMailData = {
+      toEmail: email,
+      subject: "System login as a PHI",
+      body: `<p>Your user name :</p>  <h5> ${registrationNo}</h5> <br/>
+      <p>Your  password :</p>  <h5> ${password}</h5>`,
+    };
+
+    const result = await MailService.mailSender(sendMailData);
+
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getPhisData = async (params) => {
   const filter = { active: true };
@@ -58,6 +101,10 @@ const createPhiData = async (data) => {
     if (err) TE(err);
 
     if (!result) TE("Result not found");
+
+    const phiUser = await _createPhiAsUser(data);
+
+    if (!phiUser) TE("Email is not send");
 
     return result;
   } else {
