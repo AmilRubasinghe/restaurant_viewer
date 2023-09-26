@@ -111,38 +111,41 @@ paths:
           name: id
           type: string
           description: phis system id
-        - in: query
-          name: phiName
-          type: string
-          description: Attributes needed to include in phi's name
-          example: test
-        - in: query
-          name: email
-          type: string
-          description: Attributes needed to include in phi's email
-          example: test@gmail.com
-        - in: query
-          name: contactNumber
-          type: string
-          description: Attributes needed to include in phi's contactNumber
-          example: 011 1214544
-        - in: query
-          name: registrationNo
-          description: Attributes needed to include in phi's registrationNo
-          type: string
-        - in: query
-          name: address
-          description: Attributes needed to include in phi's address
-          type: string
-        - in: query
-          name: phiArea
-          description: Attributes needed to include in phi's phi area
-          type: string
-        - in: query
-          name: active
-          type: boolean
-          description: Attributes needed to include in phi active or inactive
-          example: active inactive
+        - in: body
+          name: body
+          description: Attributes needed to update
+          require: true 
+          schema:
+            type: "object"
+            properties:
+              phiName:
+                type: string
+                example: test
+
+              email:
+                type: string
+                example: test@gmail.com
+            
+              contactNumber:
+                type: string
+                example: 011 1214544
+            
+              registrationNo:
+                type: string
+                example: "01100"
+            
+              address:
+                type: string
+                example: "test test road"
+            
+              phiArea:
+                type: string
+                example: "Matara"
+           
+              active:
+                type: boolean
+                example: active
+        
       responses:
         200:
           $ref: "#components/responses/200"

@@ -102,6 +102,38 @@ paths:
         500:
           $ref: "#components/responses/500"
 
+          ##################### PUT ##########################
+    put:
+      tags:
+        - Review Management
+      summary: "Update Review"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: Review id
+        - in: body
+          name: body
+          description: Attributes needed to update
+          require: true 
+          schema:
+            type: "object"
+            properties:
+              isPhiMark:
+                type: boolean
+                example: true
+      responses:
+        200:
+          $ref: "#components/responses/200"
+        401:
+          $ref: "#components/responses/401"
+        404:
+          $ref: "#components/responses/404"
+        500:
+          $ref: "#components/responses/500"
+
   ##################### DELETE ##########################
     delete:
       tags:
@@ -124,5 +156,6 @@ paths:
           $ref: "#components/responses/404"
         500:
           $ref: "#components/responses/500"
+
 
   

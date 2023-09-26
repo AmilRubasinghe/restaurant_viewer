@@ -66,35 +66,35 @@ paths:
           name: id
           type: string
           description: users system id
-        - in: query
-          name: name
-          type: string
-          description: Attributes needed to include in user's name
-          example: test
-        - in: query
-          name: email
-          type: string
-          description: Attributes needed to include in user's email
-          example: test@gmail.com
-        - in: query
-          name: contactNumber
-          type: string
-          description: Attributes needed to include in user's contactNumber
-          example: 011 1214544
-        - in: query
-          name: role
-          description: Attributes needed to include in user's role
-          type: string
-          nullable: true 
-          enum:
-            - admin
-            - user
-          example: admin user
-        - in: query
-          name: active
-          type: boolean
-          description: Attributes needed to include in user active or inactive
-          example: active inactive
+        - in: body
+          name: body
+          description: Attributes needed to update
+          require: true 
+          schema:
+            type: "object"
+            properties:
+              name :
+                type: string
+                example: test
+              email:
+                type: string
+                example: test@gmail.com
+           
+              contactNumber:
+                type: string
+                example: 011 1214544
+            
+              role:
+                type: string
+                nullable: true 
+                enum:
+                  - admin
+                  - user
+                example: user
+            
+              active:
+                type: boolean
+                example: inactive
       responses:
         200:
           $ref: "#components/responses/200"
