@@ -1,4 +1,4 @@
-const locations = ["Moratuwa", "Matara", "Galle", "Gampaha", "colombo"];
+const locations = ["Moratuwa", "Matara", "Galle", "Gampaha", "colombo", "kandy"];
 
 module.exports = {
   locations,
