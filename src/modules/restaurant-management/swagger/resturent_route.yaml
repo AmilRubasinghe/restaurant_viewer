@@ -107,38 +107,40 @@ paths:
           name: id
           type: string
           description: Restaurant system id
-        - in: query
-          name: restaurantName
-          type: string
-          description: Attributes needed to include in restaurant's name
-          example: test
-        - in: query
-          name: registrationDate
-          type: date
-          description: Attributes needed to include in restaurant's registration date
-          example: 2023/10/15
-        - in: query
-          name: contactNumber
-          type: string
-          description: Attributes needed to include in restaurant's contactNumber
-          example: 011 1214544
-        - in: query
-          name: registrationNo
-          description: Attributes needed to include in restaurant's registrationNo
-          type: string
-        - in: query
-          name: address
-          description: Attributes needed to include in restaurant's address
-          type: string
-        - in: query
-          name: phiArea
-          description: Attributes needed to include in restaurant's phi area
-          type: string
-        - in: query
-          name: active
-          type: boolean
-          description: Attributes needed to include in restaurant active or inactive
-          example: active inactive
+        - in: body
+          name: body
+          description: Attributes needed to update
+          require: true 
+          schema:
+            type: "object"
+            properties:
+              restaurantName:
+                type: string
+                example: test
+            
+              registrationDate:
+                type: date
+                example: 2023/10/15
+            
+              contactNumber:
+                type: string
+                example: 011 1214544
+            
+              registrationNo:
+                type: string
+                example: "01100"
+            
+              address:
+                type: string
+                example: "test test road"
+            
+              phiArea:
+                type: string
+                example: "Matara"
+           
+              active:
+                type: boolean
+                example: active
       responses:
         200:
           $ref: "#components/responses/200"
