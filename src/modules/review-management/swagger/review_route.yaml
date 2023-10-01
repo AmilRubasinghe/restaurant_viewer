@@ -59,12 +59,6 @@ paths:
               reviewDetails:
                 type: string
                 example: "test review"
-              status:
-                type: string
-                enum:
-                  - good
-                  - bad
-                example: good
               phiArea:
                  type: string
                  example: "Matara"
