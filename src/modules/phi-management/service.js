@@ -16,12 +16,12 @@ const { to, TE } = require("../../helper");
 
 const _createPhiAsUser = async (data) => {
   try {
-    const { phiName, registrationNo, email, contactNumber } = data;
+    const { phiName, registrationNo, email, contactNumber, phiId } = data;
 
     const password = generator.generate({
       length: 10,
       numbers: true,
-      symbols: '!@#$&*~'
+      symbols: "!@#$&*~",
     });
 
     const createUserSchema = {
@@ -30,6 +30,7 @@ const _createPhiAsUser = async (data) => {
       password: password,
       contactNumber: contactNumber,
       email: email,
+      phiReference: phiId,
       role: "phi",
     };
 
@@ -96,14 +97,17 @@ const createPhiData = async (data) => {
 
   if ((resultData && resultData.length <= 0) || resultData == null) {
     const createSingleRecode = DataBase.createSingleRecode(data);
-    
+
     const [err, result] = await to(createSingleRecode);
-    console.log("PHI Data",result);
+
     if (err) TE(err);
 
     if (!result) TE("Result not found");
 
-    const phiUser = await _createPhiAsUser(data);
+    const phiUser = await _createPhiAsUser({
+      ...data,
+      phiId: result.dataValues.id,
+    });
 
     if (!phiUser) TE("Email is not send");
 

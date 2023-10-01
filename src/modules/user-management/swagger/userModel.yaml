@@ -23,6 +23,9 @@ definitions: # Schema defination for request body
         type: string
         enum: ["user", "admin","phi"]
         default: "user"
+      phiReference:
+        type: integer
+        example: 0
       active:
         type: boolean
         enum: [true, false]
