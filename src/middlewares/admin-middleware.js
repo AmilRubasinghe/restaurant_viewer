@@ -50,4 +50,5 @@ exports.checkAdminAndPhiToken = (req, res, next) => {
 
 exports.checkAdminPhiAndUserToken = (req, res, next) => {
   _checkToken(req, res, next, ["user", "admin", "phi"]);
+  
 };
