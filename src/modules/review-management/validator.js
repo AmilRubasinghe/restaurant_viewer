@@ -1,9 +1,7 @@
 const Joi = require("joi");
 const { VALIDATION_ERROR } = require("../../helper");
 const Constants = require("../metadata/constants");
-const ReviewConstants = require("./constants");
 const locations = Constants.locations;
-const status = ReviewConstants.status;
 
 const createSchema = Joi.object({
   restaurantId: Joi.string().required(),
@@ -11,9 +9,6 @@ const createSchema = Joi.object({
   phiArea: Joi.string()
     .required()
     .valid(...locations),
-  status: Joi.string()
-    .required()
-    .valid(...status),
 });
 
 const updateSchema = Joi.object({

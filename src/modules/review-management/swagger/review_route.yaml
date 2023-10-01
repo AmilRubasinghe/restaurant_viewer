@@ -56,9 +56,6 @@ paths:
               restaurantId:
                 type: string
                 example: "001"
-              userId:
-                 type: string
-                 example: "0001"
               reviewDetails:
                 type: string
                 example: "test review"
