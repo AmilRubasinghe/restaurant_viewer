@@ -13,6 +13,7 @@ const APPLICATION = {
   DB_NAME: process.env.DB_NAME,
   DB_PASSWORD: process.env.DB_PASSWORD,
   APP_URL: process.env.API_ENDPOINT,
+  AI_SERVICE: process.env.AI_SERVICE,
 };
 
 const MAIL_SERVER = {
