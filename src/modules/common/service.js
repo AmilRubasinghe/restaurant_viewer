@@ -2,6 +2,8 @@ const Constants = require("./constants");
 
 const DataBase = require("../user-management/database");
 
+const PhiDataBase = require("../phi-management/database");
+
 const Sequelize = require("sequelize");
 
 const { ACCESS_TOKEN } = require("../../../config/config").ACCESS;
@@ -35,6 +37,21 @@ const _findRecode = async (filter) => {
   return resultData?.dataValues;
 };
 
+const _findPhiRecode = async (filter) => {
+  const getRecode = PhiDataBase.findOneByQuery({
+    where: filter,
+  });
+
+  const [error, resultData] = await to(getRecode);
+
+  if (error) TE(error);
+
+  if ((resultData && resultData.length <= 0) || resultData == null)
+    TE("Incorrect Phi Id");
+
+  return resultData?.dataValues;
+};
+
 const login = async (data) => {
   try {
     const { password, userName } = data;
@@ -49,11 +66,23 @@ const login = async (data) => {
         id: resultData.id,
       };
 
+      let phi = {};
+
+      if (resultData.phiReference > 0) {
+        phi = await _findPhiRecode({ id: resultData.phiReference });
+        response.phiArea = phi.phiArea;
+      }
+
       const accessToken = jwt.sign(response, ACCESS_TOKEN, {
         expiresIn: "8h",
       });
 
-      return { token: accessToken, role: resultData.role, id: resultData.id };
+      return {
+        token: accessToken,
+        role: resultData.role,
+        id: resultData.id,
+        phiArea: phi.phiArea,
+      };
     } else {
       TE("Incorrect Password");
     }
