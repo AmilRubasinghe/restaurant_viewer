@@ -21,11 +21,12 @@ const _createPhiAsUser = async (data) => {
     const password = generator.generate({
       length: 10,
       numbers: true,
+      symbols: '!@#$&*~'
     });
 
     const createUserSchema = {
       name: phiName,
-      userName: registrationNo,
+      userName: registrationNo.toLowerCase(),
       password: password,
       contactNumber: contactNumber,
       email: email,
@@ -38,9 +39,9 @@ const _createPhiAsUser = async (data) => {
 
     const sendMailData = {
       toEmail: email,
-      subject: "System login as a PHI",
-      body: `<p>Your user name :</p>  <h5> ${registrationNo}</h5> <br/>
-      <p>Your  password :</p>  <h5> ${password}</h5>`,
+      subject: "Resautant Reviewer Credentials (PHI)",
+      body: `<p>Your PHI username : </p>  <h5> ${registrationNo.toLowerCase()}</h5> <br/>
+      <p>Your password : </p>  <h5> ${password}</h5> <br/><br/> <h4>Use this as your Restaurant Reviewer Site Login Credentials.</h4>`,
     };
 
     const result = await MailService.mailSender(sendMailData);
@@ -95,9 +96,9 @@ const createPhiData = async (data) => {
 
   if ((resultData && resultData.length <= 0) || resultData == null) {
     const createSingleRecode = DataBase.createSingleRecode(data);
-
+    
     const [err, result] = await to(createSingleRecode);
-
+    console.log("PHI Data",result);
     if (err) TE(err);
 
     if (!result) TE("Result not found");

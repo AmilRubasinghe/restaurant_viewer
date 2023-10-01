@@ -12,6 +12,8 @@ const { to, TE } = require("../../helper");
 
 const { MailService } = require("../../services/mail");
 
+const axios = require('axios');
+
 const _getRestaurantData = async (filter) => {
   const getRestaurantRecode = RestaurantDataBase.findOneByQuery({
     where: filter,
@@ -112,6 +114,28 @@ const getReview = async (filter) => {
 
 const createReviewData = async (data) => {
   const { status, phiArea, reviewDetails, restaurantId } = data;
+console.log("req data ", data);
+  var newStatus = "";
+  try{
+    msg = {"message":reviewDetails};
+    axios.post("http://127.0.0.1:5500/send", {
+      message: reviewDetails,
+    })
+    .then((response) => {
+      console.log(JSON.stringify(response.data['prediction']));
+      if (JSON.stringify(response.data['prediction']).toString().match("Negative")) {
+        console.log("bad review");
+        newStatus == "bad";
+      } 
+      else {
+        newStatus = "good";
+      }
+    });
+  }catch(e){
+    console.log(e);
+  }
+
+  console.log("..",newStatus);
 
   const createSingleRecode = DataBase.createSingleRecode(data);
 
@@ -123,7 +147,8 @@ const createReviewData = async (data) => {
 
   result.dataValues.isMessageSend = false;
 
-  if (status == "bad") {
+  if (newStatus == "bad") {
+    console.log("sending message to phi")
     const phiRes = await _getPhiData({ phiArea: phiArea });
 
     const restaurantRes = await _getRestaurantData({ id: restaurantId });
