@@ -12,7 +12,7 @@ const { to, TE } = require("../../helper");
 
 const { MailService } = require("../../services/mail");
 
-const axios = require('axios');
+const { ModelPredictionService } = require("../../services/prediction");
 
 const _getRestaurantData = async (filter) => {
   const getRestaurantRecode = RestaurantDataBase.findOneByQuery({
@@ -111,31 +111,12 @@ const getReview = async (filter) => {
   return reviewData;
 };
 
-
 const createReviewData = async (data) => {
-  const { status, phiArea, reviewDetails, restaurantId } = data;
-  console.log("req data ", data);
-  var newStatus = "";
-  try {
-    msg = { "message": reviewDetails };
-    const response = await axios.post("http://127.0.0.1:5500/send", {
-      message: reviewDetails,
-    });
+  const { phiArea, reviewDetails, restaurantId } = data;
 
-    console.log(JSON.stringify(response.data['prediction']));
-    if (JSON.stringify(response.data['prediction']).toString().match("Negative")) {
-      console.log("bad review");
-      newStatus = "bad";
-    }
-    else {
-      newStatus = "good";
-    }
-  } catch (e) {
-    console.log(e);
-    return TE(e);
-  }
+  const status = await ModelPredictionService.getPredictData(reviewDetails);
 
-  console.log("..", newStatus);
+  data.status = status;
 
   const createSingleRecode = DataBase.createSingleRecode(data);
 
@@ -147,8 +128,8 @@ const createReviewData = async (data) => {
 
   result.dataValues.isMessageSend = false;
 
-  if (newStatus == "bad") {
-    console.log("sending message to phi")
+  if (status == "bad") {
+    console.log("sending message to phi");
     const phiRes = await _getPhiData({ phiArea: phiArea });
 
     const restaurantRes = await _getRestaurantData({ id: restaurantId });
@@ -159,7 +140,7 @@ const createReviewData = async (data) => {
       const sendMailData = {
         toEmail: email,
         subject: "Inform to bad restaurant",
-        body: `<p> ABD</p> 
+        body: `<p> ABD</p>
         <br/> <br/> <p> Restaurant : ${restaurantRes.restaurantName}
         <br/> <p> Phi Area : ${phiArea}
         <br/> <p> Restaurant Address : ${restaurantRes.address}
