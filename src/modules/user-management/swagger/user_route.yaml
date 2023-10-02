@@ -90,6 +90,7 @@ paths:
                 enum:
                   - admin
                   - user
+                  - phi
                 example: user
             
               active:
