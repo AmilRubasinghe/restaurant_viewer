@@ -12,7 +12,8 @@ const createSchema = Joi.object({
 });
 
 const updateSchema = Joi.object({
-  isPhiMark: Joi.bool().required(),
+  isPhiMark: Joi.bool().optional(),
+  status: Joi.string().optional()
 });
 
 const create = async (req, res, next) => {
