@@ -20,7 +20,10 @@ const _createPhiAsUser = async (data) => {
 
     const password = generator.generate({
       length: 10,
+      strict: true,
       numbers: true,
+      lowercase: true,
+      uppercase: true,
       symbols: "!@#$&*~",
     });
 
