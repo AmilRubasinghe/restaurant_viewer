@@ -115,7 +115,6 @@ const createReviewData = async (data) => {
   const { phiArea, reviewDetails, restaurantId } = data;
 
   const status = await ModelPredictionService.getPredictData(reviewDetails);
-
   data.status = status;
 
   const createSingleRecode = DataBase.createSingleRecode(data);
@@ -140,11 +139,11 @@ const createReviewData = async (data) => {
       const sendMailData = {
         toEmail: email,
         subject: "Inform to bad restaurant",
-        body: `<p> ABD</p>
-        <br/> <br/> <p> Restaurant : ${restaurantRes.restaurantName}
-        <br/> <p> Phi Area : ${phiArea}
-        <br/> <p> Restaurant Address : ${restaurantRes.address}
-        <br/> Review :  ${reviewDetails}</p>`,
+        body: `<h4>You have a new message about bad review of <b>${restaurantRes.restaurantName}</b></h4>
+        <br/> <p> Restaurant : ${restaurantRes.restaurantName}</p>
+        <p> Phi Area : ${phiArea}</p>
+        <p> Restaurant Address : ${restaurantRes.address}</p>
+        <br/><p> Review :  ${reviewDetails}</p>`,
       };
 
       const resultMessage = await MailService.mailSender(sendMailData);

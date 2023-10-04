@@ -22,8 +22,11 @@ const getPredictData = async (review) => {
 
     return predict;
   } catch (error) {
-    console.log(error);
+    if(error.code == "ECONNREFUSED"){
+      return "bad";
+    }
     TE(error);
+    
   }
 };
 
