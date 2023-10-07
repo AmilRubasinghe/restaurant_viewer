@@ -144,7 +144,7 @@ paths:
            
               active:
                 type: boolean
-                example: active
+                example: true
         
       responses:
         200:

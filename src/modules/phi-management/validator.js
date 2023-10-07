@@ -7,7 +7,7 @@ const createSchema = Joi.object({
   phiName: Joi.string().required(),
   registrationNo: Joi.string().required(),
   email: Joi.string().email().required(),
-  contactNumber: Joi.string().length(10).required(),
+  contactNumber: Joi.string().required(),
   address: Joi.string().optional().allow(null, ""),
   phiArea: Joi.string()
     .required()
@@ -18,7 +18,7 @@ const updateSchema = Joi.object({
   phiName: Joi.string().optional(),
   registrationNo: Joi.string().optional(),
   email: Joi.string().email().optional(),
-  contactNumber: Joi.string().length(10).optional(),
+  contactNumber: Joi.string().optional(),
   address: Joi.string().optional().allow(null, ""),
   phiArea: Joi.string()
     .optional()

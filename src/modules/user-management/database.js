@@ -1,7 +1,7 @@
 const User = require("./user");
 
-const createSingleRecode = async (singleRecode) => {
-  return await User.create(singleRecode);
+const createSingleRecode = async (singleRecode, options) => {
+  return await User.create(singleRecode, options);
 };
 
 const deleteSingleRecode = async (data) => {
@@ -12,8 +12,8 @@ const deleteSingleRecode = async (data) => {
 const updateMultipleRecodes = async (query, updates) =>
   await User.update(updates, query);
 
-const updateRecode = async (condition, dataNeedToUpdate) =>
-  await User.update(dataNeedToUpdate, condition);
+const updateRecode = async (condition, dataNeedToUpdate, options) =>
+  await User.update(dataNeedToUpdate, condition, options);
 
 const findOneByQuery = async (query) => await User.findOne(query);
 

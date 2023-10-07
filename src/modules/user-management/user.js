@@ -36,10 +36,6 @@ User.init(
       }),
       defaultValue: "user",
     },
-    phiReference: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,

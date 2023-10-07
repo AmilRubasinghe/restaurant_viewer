@@ -1,7 +1,7 @@
 const Phi = require("./phi");
 
-const createSingleRecode = async (singleRecode) => {
-  return await Phi.create(singleRecode);
+const createSingleRecode = async (singleRecode, options) => {
+  return await Phi.create(singleRecode, options);
 };
 
 const deleteSingleRecode = async (data) => {
@@ -12,8 +12,8 @@ const deleteSingleRecode = async (data) => {
 const updateMultipleRecodes = async (query, updates) =>
   await Phi.update(updates, query);
 
-const updateRecode = async (condition, dataNeedToUpdate) =>
-  await Phi.update(dataNeedToUpdate, condition);
+const updateRecode = async (condition, dataNeedToUpdate, options) =>
+  await Phi.update(dataNeedToUpdate, condition, options);
 
 const findOneByQuery = async (query) => await Phi.findOne(query);
 
