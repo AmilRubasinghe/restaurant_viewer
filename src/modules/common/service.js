@@ -46,9 +46,6 @@ const _findPhiRecode = async (filter) => {
 
   if (error) TE(error);
 
-  if ((resultData && resultData.length <= 0) || resultData == null)
-    TE("Incorrect Phi Id");
-
   return resultData?.dataValues;
 };
 
@@ -66,12 +63,7 @@ const login = async (data) => {
         id: resultData.id,
       };
 
-      let phi = {};
-
-      if (resultData.phiReference > 0) {
-        phi = await _findPhiRecode({ id: resultData.phiReference });
-        response.phiArea = phi.phiArea;
-      }
+      const phi = await _findPhiRecode({ userId: resultData.id });
 
       const accessToken = jwt.sign(response, ACCESS_TOKEN, {
         expiresIn: "8h",
@@ -81,7 +73,7 @@ const login = async (data) => {
         token: accessToken,
         role: resultData.role,
         id: resultData.id,
-        phiArea: phi.phiArea,
+        phiArea: phi?.phiArea,
       };
     } else {
       TE("Incorrect Password");
@@ -91,34 +83,26 @@ const login = async (data) => {
   }
 };
 
-const createUser = async (data) => {
+const createUser = async (data, options) => {
   let storeData = data;
 
   storeData.password = bcrypt.hashSync(data.password, salt);
 
-  const getRecode = DataBase.findByQuery({
-    where: {
-      [Op.or]: [{ userName: storeData.userName }, { email: storeData.email }],
-    },
-  });
+  // const getRecode = DataBase.findByQuery({
+  //   where: {
+  //     [Op.or]: [{ userName: storeData.userName }, { email: storeData.email }],
+  //   },
+  // });
 
-  const [error, resultData] = await to(getRecode);
+  const createSingleRecode = DataBase.createSingleRecode(storeData, options);
 
-  if ((resultData && resultData.length <= 0) || resultData == null) {
-    const createSingleRecode = DataBase.createSingleRecode(storeData);
+  const [err, result] = await to(createSingleRecode);
 
-    const [err, result] = await to(createSingleRecode);
+  if (err) TE(err.errors[0] ? err.errors[0].message : err);
 
-    if (err) TE(err);
+  if (!result) TE("Result not found");
 
-    if (!result) TE("Result not found");
-
-    return result;
-  } else {
-    TE("User name or email already exist ");
-  }
-
-  if (error) TE(error);
+  return result;
 };
 
 const passwordRest = async (data) => {

@@ -59,9 +59,6 @@ paths:
               password:
                  type: string
                  example: "test001"
-              phiReference:
-                type: integer
-                example: 0
               contactNumber:
                  type: string
                  example: "0110122785"

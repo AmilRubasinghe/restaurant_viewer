@@ -36,25 +36,11 @@ const getUser = async (filter) => {
 };
 
 const updateUser = async (filter, updateData) => {
-  if (updateData.email) {
-    const getRecode = DataBase.findOneByQuery({
-      where: filter,
-    });
-
-    const [error, resultData] = await to(getRecode);
-
-    if (resultData && resultData.email == updateData.email) {
-      TE("Email already exist");
-      return;
-    }
-    if (error) TE(error);
-  }
-
   const updateRecode = DataBase.updateRecode({ where: filter }, updateData);
 
   const [err, result] = await to(updateRecode);
 
-  if (err) TE(err);
+  if (err) TE(err.errors[0] ? err.errors[0].message : err);
 
   if (!result) TE("Result not found");
 

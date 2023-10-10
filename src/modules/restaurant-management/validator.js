@@ -7,7 +7,7 @@ const createSchema = Joi.object({
   restaurantName: Joi.string().required(),
   registrationNo: Joi.string().required(),
   registrationDate: Joi.date().optional().allow(null),
-  contactNumber: Joi.string().length(10).required(),
+  contactNumber: Joi.string().required(),
   address: Joi.string().optional().allow(null, ""),
   phiArea: Joi.string()
     .required()
@@ -16,7 +16,7 @@ const createSchema = Joi.object({
 
 const updateSchema = Joi.object({
   restaurantName: Joi.string().optional(),
-  contactNumber: Joi.string().length(10).optional(),
+  contactNumber: Joi.string().optional(),
   registrationDate: Joi.date().optional().allow(null),
   registrationNo: Joi.string().optional(),
   address: Joi.string().optional().allow(null, ""),

@@ -42,50 +42,23 @@ const getRestaurant = async (filter) => {
 };
 
 const createRestaurantData = async (data) => {
-  const getRecode = DataBase.findByQuery({
-    where: { registrationNo: data.registrationNo },
-  });
+  const createSingleRecode = DataBase.createSingleRecode(data);
 
-  const [error, resultData] = await to(getRecode);
+  const [err, result] = await to(createSingleRecode);
 
-  if ((resultData && resultData.length <= 0) || resultData == null) {
-    const createSingleRecode = DataBase.createSingleRecode(data);
+  if (err) TE(err.errors[0] ? err.errors[0].message : err);
 
-    const [err, result] = await to(createSingleRecode);
+  if (!result) TE("Result not found");
 
-    if (err) TE(err);
-
-    if (!result) TE("Result not found");
-
-    return result;
-  } else {
-    TE("Registration number is already exist ");
-  }
-
-  if (error) TE(error);
+  return result;
 };
 
 const updateRestaurantData = async (filter, updateData) => {
-  if (updateData.registrationNo) {
-    const getRecode = DataBase.findOneByQuery({
-      where: { registrationNo: updateData.registrationNo },
-    });
-
-    const [error, resultData] = await to(getRecode);
-
-    if (resultData && resultData.registrationNo == updateData.registrationNo) {
-      TE("Registration number is already exist ");
-      return;
-    }
-
-    if (error) TE(error);
-  }
-
   const updateRecode = DataBase.updateRecode({ where: filter }, updateData);
 
   const [err, result] = await to(updateRecode);
 
-  if (err) TE(err);
+  if (err) TE(err.errors[0] ? err.errors[0].message : err);
 
   if (!result) TE("Result not found");
 

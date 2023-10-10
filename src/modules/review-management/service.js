@@ -14,6 +14,9 @@ const { MailService } = require("../../services/mail");
 
 const { ModelPredictionService } = require("../../services/prediction");
 
+const User = require("../user-management/user");
+const Restaurant = require("../restaurant-management/restaurant");
+
 const _getRestaurantData = async (filter) => {
   const getRestaurantRecode = RestaurantDataBase.findOneByQuery({
     where: filter,
@@ -54,6 +57,7 @@ const _getUserData = async (filter) => {
 
 const getReviewsData = async (filter) => {
   const getRecodes = DataBase.findByQuery({
+    include: [User, Restaurant],
     where: filter,
     order: [["createdAt", "DESC"]],
   });
@@ -64,29 +68,19 @@ const getReviewsData = async (filter) => {
 
   if (!result) TE("Result not found");
 
-  const reviewData = [];
+  return result.map((review) => {
+    const { name } = review.dataValues.user.dataValues;
+    const { restaurantName } = review.dataValues.restaurant.dataValues;
+    delete review.dataValues.user;
+    delete review.dataValues.restaurant;
 
-  for (let i = 0; i < result.length; i++) {
-    const review = result[i].dataValues;
-
-    const { restaurantId, userId } = result[i].dataValues;
-
-    const restaurantRes = await _getRestaurantData({ id: restaurantId });
-
-    review.restaurantName = restaurantRes.restaurantName;
-
-    const userRes = await _getUserData({ id: userId });
-
-    review.userName = userRes.name;
-
-    reviewData.push(review);
-  }
-
-  return reviewData;
+    return { ...review.dataValues, userName: name, restaurantName };
+  });
 };
 
 const getReview = async (filter) => {
   const getRecode = DataBase.findOneByQuery({
+    include: [User, Restaurant],
     where: filter,
   });
 
@@ -96,19 +90,15 @@ const getReview = async (filter) => {
 
   if (!result) TE("Result not found");
 
-  const reviewData = result.dataValues;
+  const { name } = result.dataValues.user.dataValues;
 
-  const { restaurantId, userId } = result;
+  const { restaurantName } = result.dataValues.restaurant.dataValues;
 
-  const restaurantRes = await _getRestaurantData({ id: restaurantId });
+  delete result.dataValues.user;
 
-  reviewData.restaurantName = restaurantRes.restaurantName;
+  delete result.dataValues.restaurant;
 
-  const userRes = await _getUserData({ id: userId });
-
-  reviewData.userName = userRes.name;
-
-  return reviewData;
+  return { ...result.dataValues, userName: name, restaurantName };
 };
 
 const createReviewData = async (data) => {
@@ -134,7 +124,11 @@ const createReviewData = async (data) => {
     const restaurantRes = await _getRestaurantData({ id: restaurantId });
 
     for (let i = 0; i < phiRes.length; i++) {
-      const { email } = phiRes[i];
+      const { userId } = phiRes[i];
+
+      const userRes = await _getUserData({ id: userId });
+
+      const { email } = userRes;
 
       const sendMailData = {
         toEmail: email,
@@ -145,6 +139,10 @@ const createReviewData = async (data) => {
         <p> Restaurant Address : ${restaurantRes.address}</p>
         <br/><p> Review :  ${reviewDetails}</p>`,
       };
+      console.log(
+        "🚀 ~ file: service.js:153 ~ createReviewData ~ sendMailData:",
+        sendMailData
+      );
 
       const resultMessage = await MailService.mailSender(sendMailData);
 
@@ -167,7 +165,7 @@ const updateReviewData = async (filter, updateData) => {
 
   if (!result) TE("Result not found");
 
-  const reviewData = await DataBase.findOneByQuery({ where: filter });
+  const reviewData = await getReview(filter);
 
   return reviewData;
 };

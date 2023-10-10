@@ -13,7 +13,6 @@ const createSchema = Joi.object({
   contactNumber: Joi.string().required(),
   email: Joi.string().required(),
   role: Joi.string().optional(),
-  phiReference: Joi.number().integer().optional(),
 });
 
 const passwordResetSchema = Joi.object({

@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../../../config/database");
 const Constants = require("../metadata/constants");
+const User = require("../user-management/user");
 
 class Phi extends Model {}
 
@@ -13,20 +14,12 @@ Phi.init(
       unique: true,
       allowNull: false,
     },
-    phiName: {
-      type: DataTypes.STRING(),
-    },
+
     registrationNo: {
       type: DataTypes.STRING(),
       unique: "registrationNo",
     },
-    email: {
-      type: DataTypes.STRING(100),
-      unique: "email",
-    },
-    contactNumber: {
-      type: DataTypes.STRING(15),
-    },
+
     address: {
       type: DataTypes.STRING(),
     },
@@ -49,4 +42,12 @@ Phi.init(
   }
 );
 
+User.hasOne(Phi, {
+  onDelete: "cascade",
+  foreignKey: {
+    name: "userId",
+    allowNull: true,
+  },
+});
+Phi.belongsTo(User, { foreignKey: "userId" });
 module.exports = Phi;
